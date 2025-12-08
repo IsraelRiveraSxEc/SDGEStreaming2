@@ -20,7 +20,7 @@ func NewUserService(userRepo repositories.UserRepo, subscriptionRepo repositorie
 	return &UserService{userRepo: userRepo, subscriptionRepo: subscriptionRepo}
 }
 
-func (s *UserService) Register(name string, age int, email, password, ageRating string, isAdmin bool) (*models.User, error) {
+func (s *UserService) Register(name string, age int, email, password string, isAdmin bool) (*models.User, error) {
 	if !utils.IsValidName(name) {
 		return nil, fmt.Errorf("nombre inválido")
 	}
@@ -43,6 +43,9 @@ func (s *UserService) Register(name string, age int, email, password, ageRating 
 		return nil, fmt.Errorf("error al procesar la contraseña")
 	}
 
+	// Clasificación de edad automática
+	ageRating := classifyAge(age)
+
 	now := time.Now()
 	user := &models.User{
 		Name:         name,
@@ -60,10 +63,19 @@ func (s *UserService) Register(name string, age int, email, password, ageRating 
 		return nil, fmt.Errorf("no se pudo crear la cuenta de usuario: %w", err)
 	}
 
-	// crear suscripción inicial en la tabla subscriptions (opcional)
-	_ = s.subscriptionRepo.UpdateUserPlan(user.ID, 1)
-
 	return user, nil
+}
+
+// classifyAge clasifica la edad del usuario en categorías
+func classifyAge(age int) string {
+	switch {
+	case age < 13:
+		return "Niño"
+	case age < 18:
+		return "Adolescente"
+	default:
+		return "Adulto"
+	}
 }
 
 // Login existing signature kept
@@ -96,12 +108,9 @@ func (s *UserService) GetAllUsers() ([]models.User, error) {
 
 // UpdateUserPlan actualiza el plan (usado por main)
 func (s *UserService) UpdateUserPlan(userID, planID int) error {
-	// actualizar tabla users y tabla subscriptions
+	// actualizar tabla users
 	if err := s.userRepo.UpdatePlan(userID, planID); err != nil {
 		return fmt.Errorf("no se pudo actualizar plan en users: %w", err)
-	}
-	if err := s.subscriptionRepo.UpdateUserPlan(userID, planID); err != nil {
-		return fmt.Errorf("no se pudo actualizar plan en subscriptions: %w", err)
 	}
 	return nil
 }
