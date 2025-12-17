@@ -15,7 +15,7 @@ func NewSubscriptionService(db *database.DB) *SubscriptionService {
 }
 
 // Asigna un plan de suscripción a un usuario
-func (ss *SubscriptionService) AssignPlan(userID int, plan models.Subscription) error {
+func (ss *SubscriptionService) AssignPlan(userID int, plan models.UserSubscription) error {
 	stmt, err := ss.db.Conn.Prepare(
 		"INSERT INTO subscriptions (user_id, plan_id, active) VALUES (?, ?, ?)",
 	)

@@ -15,26 +15,29 @@ func TestParentalControlLogic(t *testing.T) {
 	    MinAge: 10,
 	}
 
-	if !profile.IsAllowedFor(contentAllowed) {
+	if !profile.IsAllowedFor(contentAllowed.MinAge) {
 	    t.Error("El perfil tiene acceso al contenido permitido")
 	}
 
-	if profileIsnAllowedFor(contentBlocked.MinAge) {
+	contentBlocked := models.Content{
+	    MinAge: 16,
+	}
+	if profile.IsAllowedFor(contentBlocked.MinAge) {
 	    t.Error("El perfil no tiene acceso, contenido bloqueado")	    
 	}
 }
 
 func TestSubscriptionAccessLogic(t *testing.T) {
-	subscription := models.Subscription{
-	    Type: "free",
-		Active: "true",
+	subscription := models.UserSubscription{
+	    Plan: models.PlanFree,
+		Active: true,
 	}
 
-	if subscription.Type != "free" {
-	    t.Error("El tipo de suscripcion deberia ser free")
+	if subscription.Plan != models.PlanFree {
+	    t.Error("Plan free")
 	}
 
 	if !subscription.Active {
-	    t.Error("La suscripcion deberia estar activa")
+	    t.Error("Tiene un plan activo")
 	}
 }

@@ -20,11 +20,6 @@ func TestLoginEndpoint(t *testing.T) {
 
 	rr := httptest.NewRecorder()
 
-	// Handler simulado (sin BD real)
-	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-	})
-
 	handler.ServeHTTP(rr, req)
 
 	if rr.Code != http.StatusOK {
