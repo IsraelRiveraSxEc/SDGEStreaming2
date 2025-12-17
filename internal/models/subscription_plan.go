@@ -1,11 +1,11 @@
 package models
 
-type SubscriptionPlanType string
+type SubscriptionPlan string
 
 const (
-	PlanFree SubscriptionPlanType = "free"
-	PlanBasic SubscriptionPlanType = "standard"
-	PlanPro SubscriptionPlanType = "premium"
+	PlanFree SubscriptionPlan = "free"
+	PlanBasic SubscriptionPlan = "standard"
+	PlanPro SubscriptionPlan = "premium"
 )
 
 type Subscription struct {

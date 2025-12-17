@@ -5,16 +5,20 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+type Role int
+
 const (
-	RoleUser = false
-	RoleAdmin = true
+	RoleUser Role = iota
+	RoleAdmin
+	RoleDirector
 )
+
 type User struct {
 	ID       int    `json:"id"`
 	Name     string `json:"name"`
 	Email    string `json:"email"`
 	Password string `json:"-"`			// no se expone en JSON
-	Role	bool `json:"role"`
+	Role Role `json:"role"`
 }
 
 func (u *User) SetPassword(password string) error {

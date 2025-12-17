@@ -21,6 +21,7 @@ func (ps *ProfileService) CreateProfile(UserID int, name string, age int) error 
 	if name == "" {
 	    return errors.New("Nombre de perfil requerido")
 	}
+	stmt, err := ps.db.Conn.Prepare("INSERT INTO profiles (user_id, name, age) VALUES (?, ?, ?)")
 	if err != nil {
 		return err
 	}

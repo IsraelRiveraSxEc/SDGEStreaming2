@@ -13,8 +13,8 @@ func NewContentService(db *database.DB) *ContentService {
 	return &ContentService{db: db}
 }
 // Obtiene todo el contenido permitido según la edad del perfil.
-func (cs *ContentService) GetAllContentsForProfile() ([]models.Content, error) {
-	rows, err := cs.db.Conn.Query(`SELECT id, title, type, genre, duration, year, artist, min_age FROM contents WHERE min_age <= ?`,	profile.Age)
+func (cs *ContentService) GetAllContentsForProfile(profile models.Profile) ([]models.Content, error) {
+	rows, err := cs.db.Conn.Query(`SELECT id, title, type, genre, duration, year, artist, rating, min_age FROM contents WHERE min_age <= ?`,	profile.Age)
 	if err != nil {
 		return nil, err
 	}

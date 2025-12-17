@@ -39,7 +39,7 @@ func RegisterHandler(db *database.DB) http.HandlerFunc {
 		}
 
 		authService := services.NewAuthService(db)
-		if err := authService.Register(user.Email, user.Password, false); err != nil {
+		if err := authService.Register(user.Email, user.Password); err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}

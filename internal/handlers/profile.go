@@ -6,9 +6,9 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
+	
 	"sdgestreaming/internal/database"
-	"sdgestreaming/internal/models"
-	"sdgestreaming/internal/services"
+	"sdgestreaming/internal/services"	
 )
 
 // Handler para crear un perfil

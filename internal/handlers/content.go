@@ -18,7 +18,7 @@ func GetAllContentHandler(db *database.DB) http.HandlerFunc {
 		// Perfil simulado (ej. adulto)
 		profile := models.Profile{Age: 100}
 
-		contents, err := contentService.GetAllContentForProfile(profile)
+		contents, err := contentService.GetAllContentsForProfile(profile)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
