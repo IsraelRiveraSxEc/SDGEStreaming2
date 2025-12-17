@@ -4,27 +4,33 @@ import (
 	"encoding/json"
 	"net/http"
 	"sdgestreaming/internal/database"
-	"sdgestreaming/internal/models"
 	"sdgestreaming/internal/services"
 )
 
 // Handler de login
 func LoginHandler(db *database.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req services.LoginRequest
+		var req struct {
+			Email string `json:"email"`
+			Password string `json:"password"`
+		}
+		//Decodificar JSON
 		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-			http.Error(w, "JSON inválido", http.StatusBadRequest)
+			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 
 		authService := services.NewAuthService(db)
-		user, err := authService.Login(req.Email, req.Password)
+
+		users, err := authService.Login(req.Email, req.Password)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusUnauthorized)
-			return
+		    http.Error(w, err.Error(), http.StatusUnauthorized)
+		    return
 		}
 
 		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+
 		json.NewEncoder(w).Encode(user)
 	}
 }
@@ -32,19 +38,35 @@ func LoginHandler(db *database.DB) http.HandlerFunc {
 // Handler de registro
 func RegisterHandler(db *database.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var user models.User
+		var req struct {
+			Name string `json:"name"`
+			Email string `json:"email"`
+			Password string `json:"password"`
+			Role string `json:"role"`
+		}
+		// Decodificar JSON
 		if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 			http.Error(w, "JSON inválido", http.StatusBadRequest)
 			return
 		}
 
 		authService := services.NewAuthService(db)
-		if err := authService.Register(user.Email, user.Password); err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
+		
+		user, err := authService.Register(
+			req.Name,
+			req.Email,
+			req.Password,
+			req.Role,
+		)
+		
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusCreated)
+
 		json.NewEncoder(w).Encode(map[string]string{
 			"message": "usuario registrado correctamente",
 		})
