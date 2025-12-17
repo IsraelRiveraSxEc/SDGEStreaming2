@@ -16,7 +16,7 @@ func TestParentalControlLogic(t *testing.T) {
 	}
 
 	if !profile.IsAllowedFor(contentAllowed.MinAge) {
-	    t.Error("El perfil tiene acceso al contenido permitido")
+	    t.Error("El perfil tiene acceso, contenido permitido")
 	}
 
 	contentBlocked := models.Content{
@@ -38,6 +38,6 @@ func TestSubscriptionAccessLogic(t *testing.T) {
 	}
 
 	if !subscription.Active {
-	    t.Error("Tiene un plan activo")
+	    t.Error("Activo un plan")
 	}
 }

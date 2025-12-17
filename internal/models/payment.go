@@ -1,14 +1,12 @@
 package models
 
-import (
-	"time"
-)
+import "time"
 
 type Payment struct {
 	ID int `json:"id"`
 	UserID int `json:"user_id"`
-	PlanID int `json:"plan_id"`
+	Plan SubscriptionPlanType `json:"plan"`
 	Amount float64 `json:"amount"`
-	PaymentDate time.Time `json:"payment_date"`
-	Method string `json:"method"`
+	PaymentMethod string `json:"payment_method"`
+	PaidAt time.Time `json:"paid_at"`
 }
