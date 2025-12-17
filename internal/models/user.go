@@ -5,12 +5,12 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type Role int
+type Role string
 
 const (
-	RoleUser Role = iota
-	RoleAdmin
-	RoleDirector
+	RoleUser Role = "user"
+	RoleAdmin Role = "admin"
+	RoleDirector Role = "director"
 )
 
 type User struct {
@@ -22,20 +22,21 @@ type User struct {
 	CreatedAt string `json:"created_at"`
 	UpdatedAt string `json:"updated_at"`
 }
-
-func (u *User) SetPassword(password string) error {
-	if len(password) < 8 {
+// Genera el hash bcrypt
+func (u *User) SetPassword(plain string) error {
+	if len(plain) < 8 {
 		return errors.New("La contraseña debe tener al menos 8 caracteres")
 	}
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		return err
 	}
-	u.Password = string(bytes)
+	
+	u.Password = string(hash)
 	return nil
 }
-
-func (u *User) CheckPassword(password string) bool {
-	err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
+// Compara el hash con el texto plano
+func (u *User) CheckPassword(plain string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(plain))
 	return err == nil
 }
