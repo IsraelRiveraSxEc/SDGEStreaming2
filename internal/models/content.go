@@ -17,8 +17,8 @@ type Content struct {
 }
 // GetFormattedRating devuelve el rating con formato legible
 func (c *Content) GetFormattedRating() string {
-	if c.Rating == 10.0 {
-		return "10"
+	if c.Rating <= 0 {
+		return "Sin clasificación"
 	}
 	return fmt.Sprintf("%.1f", c.Rating)
 }
