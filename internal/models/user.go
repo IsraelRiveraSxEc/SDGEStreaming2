@@ -20,6 +20,7 @@ type User struct {
 	Password string `json:"-"`			// no se expone en JSON
 	Role Role `json:"role"`
 	CreatedAt string `json:"created_at"`
+	UpdatedAt string `json:"updated_at"`
 }
 
 func (u *User) SetPassword(password string) error {

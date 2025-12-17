@@ -10,6 +10,7 @@ import (
 )
 
 func TestLoginEndpoint(t *testing.T) {
+	db, err := database.NewSQLiteDB
 	body := []byte(`{
 		"email": "test@test.com",
 		"password": "password123"

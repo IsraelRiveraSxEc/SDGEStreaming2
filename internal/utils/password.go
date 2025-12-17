@@ -2,12 +2,6 @@ package utils
 
 import "golang.org/x/crypto/bcrypt"
 
-package utils
-
-import (
-	"golang.org/x/crypto/bcrypt"
-)
-
 // Genera el hash de una contraseña
 func HashPassword(password string) (string, error) {
 	bytes, err := bcrypt.GenerateFromPassword(
