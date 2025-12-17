@@ -1,9 +1,11 @@
 package models
 
-type AgeRating string
+import "time"
+
+type AgeRating int
 
 const (
-	AgeTP  AgeRating = "TP"
+	AgeTP  AgeRating = "iota" // Todo público
 	Age7   AgeRating = "7+"
 	Age12  AgeRating = "12+"
 	Age15  AgeRating = "15+"
@@ -16,8 +18,10 @@ type Profile struct {
 	Name     string `json:"name"`
 	Age      int    `json:"age"`
 	Preferences map[string]string `json:"preferences"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
-
+// AgeRating devuelve la clasificación del perfil según su edad
 func (p *Profile) AgeRating() AgeRating {
 	switch {
 	case p.Age < 7:
@@ -32,7 +36,7 @@ func (p *Profile) AgeRating() AgeRating {
 		return Age18
 	}
 }
-
-func (p *Profile) IsAllowedFor(minAge int) bool {
+// IsAllowedFor valida si el perfil puede acceder a un contenido según su edad
+func (p *Profile) IsAllowedFor(content Content) bool {
 	return p.Age >= minAge
 }
