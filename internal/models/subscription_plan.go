@@ -1,14 +1,14 @@
 package models
 
-type SubscriptionPlan string
+type SubscriptionPlanType string
 
 const (
-	PlanFree SubscriptionPlan = "free"
-	PlanBasic SubscriptionPlan = "standard"
-	PlanPro SubscriptionPlan = "premium"
+	Free SubscriptionPlanType = "free"
+	Standard SubscriptionPlanType = "standard"
+	Premium SubscriptionPlanType = "premium"
 )
 
-type Subscription struct {
+type SubscriptionPlan struct {
 	ID   int    `json:"id"`
 	Plan SubscriptionPlanType `json:"plan"` // gratis, estandar o premium 
 	Price float64 `json:"price"`
