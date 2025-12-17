@@ -11,7 +11,8 @@ type DB struct {
 
 //NewSQLiteDB crea e inicializa la conexión a la base de datos.
 func NewPostgresDB() (*DB, error) {
-	conn, err := sql.Open("postgres", dsn)
+	conn, err := sql.Open("postgres", "postgres://postgres:postgres@localhost:5432/sdgestreaming2?sslmode=disable")
+	("postgres", "postgres")
 	if err != nil {
 	    return nil, err
 	}

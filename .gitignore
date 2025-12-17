@@ -4,6 +4,7 @@
 *.dll
 *.so
 *.dylib
+*.test
 
 # Build output
 /bin/
@@ -17,8 +18,6 @@
 
 # Local databases
 *.db
-*.sqlite
-*.sqlite3
 
 # Environment variables
 .env
@@ -36,3 +35,8 @@
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+/vendor/
+*~
+*.tmp
+*.swp
